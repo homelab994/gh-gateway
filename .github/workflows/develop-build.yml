@@ -1,0 +1,42 @@
+name: Develop build
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  prepare:
+    uses: homelab994/gh-newops/.github/workflows/prepare-build.yml@develop
+    secrets: inherit
+
+  build:
+    needs: prepare
+    uses: homelab994/gh-newops/.github/workflows/build-analyze.yml@develop
+    with:
+      release-version: ${{ needs.prepare.outputs.release-version }}
+    secrets: inherit
+
+  build-image:
+    needs: prepare
+    uses: homelab994/gh-newops/.github/workflows/build-push-docker.yml@develop
+    with:
+      artifact-name: 'gh-gateway'
+      release-version: ${{ needs.prepare.outputs.release-version }}
+    secrets: inherit
+
+  increment:
+    needs: [prepare, build, build-image]
+    uses: homelab994/gh-newops/.github/workflows/increment-patch-version.yml@develop
+    with:
+      release-version: ${{ needs.prepare.outputs.release-version }}
+    secrets: inherit
+
+  deploy-dev:
+    needs: [prepare, increment]
+    uses: homelab994/gh-newops/.github/workflows/deploy-artifact.yml@develop
+    with:
+      artifact-name: 'gh-gateway'
+      release-version: ${{ needs.prepare.outputs.release-version }}
+      environment: 'DEV'
+    secrets: inherit

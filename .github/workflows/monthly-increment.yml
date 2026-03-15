@@ -1,0 +1,10 @@
+name: Monthly Increment Version
+
+on:
+  schedule:
+    - cron: '0 0 2 * *'
+
+jobs:
+  increment-version:
+    uses: homelab994/gh-newops/.github/workflows/monthly-increment-version.yml@develop
+    secrets: inherit

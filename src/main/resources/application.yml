@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: gateway
+  main:
+    web-application-type: reactive
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:default}
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: gh-simple-spring
+          uri: lb://gh-simple-spring
+          predicates:
+            - Path=/gh-simple-spring/**
+          filters:
+            - StripPrefix=1
+            -
+        - id: gh-another-spring
+          uri: lb://gh-another-spring
+          predicates:
+            - Path=/gh-another-spring/**
+          filters:
+            - StripPrefix=1
+
+server:
+  port: 9099
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://eureka-server:9095/eureka}
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info, health
