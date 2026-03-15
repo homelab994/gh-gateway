@@ -5,7 +5,7 @@
 
 	<groupId>com.github.grusu94</groupId>
 	<artifactId>gh-gateway</artifactId>
-	<version>26.3.1-SNAPSHOT</version>
+	<version>26.3.2-SNAPSHOT</version>
 	<name>gh-gateway</name>
 	<description>Simple project working with github-actions</description>
 
