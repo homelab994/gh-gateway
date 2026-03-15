@@ -17,7 +17,7 @@ spring:
             - Path=/gh-simple-spring/**
           filters:
             - StripPrefix=1
-            -
+
         - id: gh-another-spring
           uri: lb://gh-another-spring
           predicates:
