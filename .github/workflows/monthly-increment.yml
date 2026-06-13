@@ -2,9 +2,11 @@ name: Monthly Increment Version
 
 on:
   schedule:
-    - cron: '0 0 2 * *'
+    - cron: '0 0 1 * *'
 
 jobs:
   increment-version:
     uses: homelab994/gh-newops/.github/workflows/monthly-increment-version.yml@develop
+    with:
+      service-name: 'gh-gateway'
     secrets: inherit
